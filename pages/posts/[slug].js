@@ -5,6 +5,7 @@ import Container from "../../components/container";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Header from "../../components/header";
+import { InlineForm } from "react-tinacms-inline";
 import Layout from "../../components/layout";
 import PostBody from "../../components/post-body";
 import PostHeader from "../../components/post-header";
@@ -14,12 +15,36 @@ import markdownToHtml from "../../lib/markdownToHtml";
 import { useRouter } from "next/router";
 
 export default function Post({ post: initialPost, morePosts, preview }) {
+  const cms = useCMS();
   const formConfig = {
     id: initialPost.id,
     label: "Blog Post",
     initialValues: initialPost,
-    onSubmit: () => {
-      alert("Saving!");
+    onSubmit: async (values) => {
+      const saveMutation = `
+      mutation UpdateBlogPost(
+        $id: ID!
+        $title: String
+        $content: String
+        $coverImageId: ID
+      ) {
+        updateBlogPost(
+          input: {
+            where: { id: $id }
+            data: { title: $title, content: $content, coverImage: $coverImageId}
+          }
+        ) {
+          blogPost {
+            id
+          }
+        }
+      }`;
+      const response = await fetchGraphql(saveMutation, {
+        id: values.id,
+        title: values.title,
+        content: values.content,
+        coverImageId: cms.media.store.getFileId(values.coverImage.url),
+      });
     },
     fields: [],
   };

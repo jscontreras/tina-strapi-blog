@@ -7,6 +7,7 @@ import {
 } from "react-tinacms-strapi";
 import { TinaCMS, TinaProvider } from "tinacms";
 
+import { useCMS } from "@tinacms/react-core";
 import { useMemo } from "react";
 
 export default function MyApp({ Component, pageProps }) {
