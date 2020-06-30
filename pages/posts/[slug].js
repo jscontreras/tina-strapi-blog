@@ -1,4 +1,4 @@
-import { useForm, usePlugin } from "tinacms";
+import { useCMS, useForm, usePlugin } from "tinacms";
 
 import { CMS_NAME } from "../../lib/constants";
 import Container from "../../components/container";
