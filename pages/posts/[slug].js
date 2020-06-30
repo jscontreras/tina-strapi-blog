@@ -73,14 +73,12 @@ export async function getStaticProps({ params, preview, previewData }) {
   `
   );
   const post = postResults.data.blogPosts[0];
-  const content = await markdownToHtml(post.content || "");
 
   if (preview) {
   return {
     props: {
       post: {
         ...post,
-        content,
       },
         preview,
         ...previewData,
@@ -91,7 +89,6 @@ export async function getStaticProps({ params, preview, previewData }) {
     props: {
       post: {
         ...post,
-        content,
       },
       preview: false,
     },
