@@ -1,3 +1,5 @@
+import { useForm, usePlugin } from "tinacms";
+
 import { CMS_NAME } from "../../lib/constants";
 import Container from "../../components/container";
 import ErrorPage from "next/error";
@@ -11,7 +13,19 @@ import { fetchGraphql } from "react-tinacms-strapi";
 import markdownToHtml from "../../lib/markdownToHtml";
 import { useRouter } from "next/router";
 
-export default function Post({ post, morePosts, preview }) {
+export default function Post({ post: initialPost, morePosts, preview }) {
+  const formConfig = {
+    id: initialPost.id,
+    label: "Blog Post",
+    initialValues: initialPost,
+    onSubmit: () => {
+      alert("Saving!");
+    },
+    fields: [],
+  };
+  const [post, form] = useForm(formConfig);
+  usePlugin(form);
+
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
     return <ErrorPage statusCode={404} />;
