@@ -48,6 +48,7 @@ export default function Post({ post: initialPost, morePosts, preview }) {
                   content={process.env.STRAPI_URL + post.coverImage.url}
                 />
               </Head>
+              <InlineForm form={form} initialStatus={"active"}>
               <PostHeader
                 title={post.title}
                 coverImage={process.env.STRAPI_URL + post.coverImage.url}
@@ -55,6 +56,7 @@ export default function Post({ post: initialPost, morePosts, preview }) {
                 author={post.author}
               />
               <PostBody content={post.content} />
+              </InlineForm>
             </article>
           </>
         )}
